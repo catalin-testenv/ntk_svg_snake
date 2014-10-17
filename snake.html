@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
+        <title>snake</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div class="table" style="border: 0px solid yellow;">
+            <div class="cell" style="border: 0px solid blue;">
+                <div id="container">
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg' 
+                        xmlns:xlink='http://www.w3.org/1999/xlink'
+                        id="main"
+                    >
+                        <defs>
+                            <symbol id="symbol_svg_chain">
+                                <rect width="100%" height="100%" style="fill: deepskyblue; " />
+                                <rect width="50%" height="100%" x="25%" style="" />
+                                <rect width="50%" height="25%" x="25%" style="fill: indianred; " />
+                            </symbol>
+                            <symbol id="symbol_simple_rect">
+                                <rect width="100%" height="100%" />
+                            </symbol>
+                            <symbol id="controller_side">
+                                <rect x="50%" y="0" width="30" height="50%" style="stroke-width: 0px; fill:darkslateblue;" transform="translate(-15 0)" />
+                            </symbol>
+                            <svg id="controller">
+                                <use xlink:href="#symbol_simple_rect" width="100%" height="100%" style="" />
+                                <circle cx="50%" cy="50%" r="40%" style="stroke:black; stroke-width: 1px; fill: none;"  />
+                                <!--<rect x="50%" y="0" width="30" height="50%" style="stroke-width: 0px; fill:darkslateblue;" transform="translate(-15 0)" />-->
+                                <use xlink:href="#controller_side" />
+                                <use xlink:href="#controller_side" transform="rotate(4)" />
+                            </svg>
+                        </defs>
+                        </svg>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+    
+    <script src="js/utils.js"></script>-->
+    <script src="js/app.js"></script>
+    <script src="js/app_bootstrap.js"></script>
+    <script>
+        'use strict';
+        var svg = document.querySelector('svg');
+        
+        //var scs = utils.make_SVG('svg', {x: 150, y: 150, width: 150, height: 150});
+        //scs.appendChild(utils.make_SVG('use', {class:"svg_snake_chain", x: 0, y: 0, width: '100%', height: '100%', "xlink:href":"#symbol_svg_chain"}));
+        //svg.appendChild(scs);
+        //scs.firstChild.setAttribute('transform', 'rotate(45 ' + (scs.firstChild.x.baseVal.value + scs.firstChild.width.baseVal.value/2) + ' ' +(scs.firstChild.y.baseVal.value + scs.firstChild.height.baseVal.value/2) + ' )');                             
+        //scs.setAttribute('x', parseFloat(scs.getAttribute('x'))+20);
+        
+  
+        
+        
+    </script>
+</html>
