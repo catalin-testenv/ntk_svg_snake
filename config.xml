@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+		xmlns:android   = "http://schemas.android.com/apk/res/android"
+        id          = "net.netiko.ntk_svg_snake"
+        versionCode = "14" 
+        version     = "0.0.1" >
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>NTK SNAKE GAME</name>
+
+    <description>
+        A svg enabled snake game 
+    </description>
+
+    <author href="http://catalinenache.com" email="catalinenache78@gmail.com">
+        Catalin Enache
+    </author>
+	
+	<icon src="icon.png" />
+	
+	<gap:platform name="android" />
+	<gap:platform name="winphone" />
+	
+	<preference name="phonegap-version" value="3.6.3" />
+	<preference name="orientation" value="default" />
+	<preference name="fullscreen" value="true" />
+	<preference name="android-minSdkVersion" value="14" />
+	<preference name="android-installLocation" value="auto" />
+	<preference name="splash-screen-duration" value="10000"/>
+</widget>
