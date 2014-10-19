@@ -74,6 +74,63 @@ handles: controller events
             }
         }
     });
+    
+    var svg = document.querySelector('#main');
+    var game_area = svg.querySelector('#svg_game_area');
+    var info_text = svg.querySelector('#info_text');
+    var controller_elements = svg.querySelectorAll('#controller use');
+    
+    var hammered_game_area = new Hammer(game_area, {});
+    hammered_game_area.get('swipe').set({ direction: Hammer.DIRECTION_ALL, velocity: 0.2 });
+    hammered_game_area.on('swipeleft swiperight swipeup swipedown', function(evt) {
+        evt.preventDefault();
+        var event = evt.type;
+        info_text.textContent = event;
+        var new_event = UNDEFINED_EVENT();
+        switch (event) {
+                case 'swipeup':
+                    new_event.direction = 'up';
+                    break;
+                case 'swiperight':
+                    new_event.direction = 'right';
+                    break;
+                case 'swipedown':
+                    new_event.direction = 'down';
+                    break;
+                case 'swipeleft':
+                    new_event.direction = 'left';
+                    break;
+            }
+            console.log(new_event);
+            utils.event.fire('controller_event', new_event);
+    });
+    
+    
+    Array.prototype.slice.call(controller_elements, 0).forEach(function(el){
+        var hammered_controller_element = new Hammer(el, {});
+        hammered_controller_element.on('tap', function (evt) {
+            evt.preventDefault();
+            var event = evt.target.id;
+            info_text.textContent = event;
+            var new_event = UNDEFINED_EVENT();
+            switch (event) {
+                case 'controller_side_up':
+                    new_event.direction = 'up';
+                    break;
+                case 'controller_side_right':
+                    new_event.direction = 'right';
+                    break;
+                case 'controller_side_down':
+                    new_event.direction = 'down';
+                    break;
+                case 'controller_side_left':
+                    new_event.direction = 'left';
+                    break;
+            }
+            console.log(new_event);
+            utils.event.fire('controller_event', new_event);
+        });
+    });
         
 })();
 

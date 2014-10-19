@@ -49,7 +49,7 @@ window.CONFIG = {
     LOG_LEVEL: 'DEBUG',
     
     get HOW_HANDED () { return 'right'; },
-    GAME_SPEED: 4,
+    GAME_SPEED: 7,
     get SNAKE_CHAIN_SIZE () { return 15 ; },
     get APP_PAGE () { return 'game'; },
 

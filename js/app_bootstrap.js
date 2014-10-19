@@ -5,6 +5,11 @@
     var container = document.querySelector('#container');
     svg.setAttribute('preserveAspectRatio', 'none');
     
+    // Disables visual
+    svg.addEventListener("MSHoldVisual", function(e) { e.preventDefault(); }, false);
+    // Disables menu
+    svg.addEventListener("contextmenu", function(e) { e.preventDefault(); }, false);
+    
     
     function set_dimensions () {
         container.style.width = CONFIG.DOC_WIDTH + 'px';
@@ -44,6 +49,25 @@
         }
     })();
     
+    var make_small_info_area = (function () {
+        var small_info_area;
+        return function () {
+            
+            var SMALL_INFO_AREA_HEIGHT = CONFIG.NON_GAME_1_SIZE;
+            var SMALL_INFO_AREA_WIDTH = CONFIG.APP_VIEWBOX_WIDTH ;
+            var SMALL_INFO_AREA_X = 0;
+            var SMALL_INFO_AREA_Y = 0;
+            
+            
+            var small_info_area = svg.querySelector('#svg_small_info_area');
+            small_info_area.x.baseVal.value = SMALL_INFO_AREA_X;
+            small_info_area.y.baseVal.value = SMALL_INFO_AREA_Y;
+            small_info_area.width.baseVal.value = SMALL_INFO_AREA_WIDTH;
+            small_info_area.height.baseVal.value = SMALL_INFO_AREA_HEIGHT;
+            small_info_area.style.display = 'block';
+            return small_info_area;
+        }
+    })();
     
     var make_info_area = (function () {
         var info_area;
@@ -87,6 +111,7 @@
     function render_game_page() {
         var game_area = make_game_area();
         make_controller_area();
+        make_small_info_area();
         make_info_area();
         var snake_head = make_snake_head(game_area);
         app.run_game({snake_head: snake_head});
