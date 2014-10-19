@@ -8,10 +8,12 @@ html, body, .table, .cell, #main {
 }
 .table {
     display: table;
+    border: 0px solid yellow;
 }
 .cell {
     display: table-cell;
     vertical-align: middle;
+    border: 0px solid blue;
 }
 #container {
     border: 1px solid red;
@@ -24,24 +26,35 @@ html, body, .table, .cell, #main {
     border: 1px solid green;
     box-sizing: border-box;
 }
-#svg_game_area{
-    stroke: black;
-    stroke-width: 0px;
-    fill: #ccc;
-    fill-opacity: .5;
-}
-#svg_controller_area{
-    stroke: black;
-    stroke-width: 0px;
-    fill: #fcc;
-    fill-opacity: .5;
-}
+
 #svg_info_area{
     stroke: black;
     stroke-width: 0px;
     fill: #ccf;
     fill-opacity: .5;
 }
+
+#svg_game_area{
+    stroke: black;
+    stroke-width: 0px;
+    fill: #ccc;
+    fill-opacity: .5;
+}
+
+#svg_controller_area #controller > use{
+    stroke: black;
+    stroke-width: 0px;
+    fill: #fcc;
+    fill-opacity: .5;
+}
+#svg_controller_area #controller circle {
+    stroke:black; stroke-width: 1px; fill: none;
+}
+#svg_controller_area #controller #controls {
+    fill: darkslateblue; fill-opacity: .5;
+}
+
+
 
 #svg_snake_head {
     stroke: orange;
@@ -53,3 +66,6 @@ html, body, .table, .cell, #main {
     stroke-width: 0px;
     fill: green;
 }
+
+
+

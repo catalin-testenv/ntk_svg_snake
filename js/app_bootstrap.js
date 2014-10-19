@@ -12,15 +12,15 @@
         svg.setAttribute('viewBox', '0 0 '+CONFIG.APP_VIEWBOX_WIDTH+' '+CONFIG.APP_VIEWBOX_HEIGHT+'');
     }
     
-    
     var make_game_area = (function () {
         var game_area;
         return function () {
-            game_area && game_area.remove();
-            game_area = undefined;
-            game_area = utils.make_SVG('svg', {id:"svg_game_area", x: CONFIG.GAME_AREA_X, y: CONFIG.GAME_AREA_Y, width: CONFIG.GAME_AREA_WIDTH, height: CONFIG.GAME_AREA_HEIGHT});
-            game_area.appendChild(utils.make_SVG('use', {x: 0, y: 0, width: '100%', height: '100%', "xlink:href":"#symbol_simple_rect"}));
-            svg.appendChild(game_area);
+            game_area = svg.querySelector('#svg_game_area');
+            game_area.x.baseVal.value = CONFIG.GAME_AREA_X;
+            game_area.y.baseVal.value = CONFIG.GAME_AREA_Y;
+            game_area.width.baseVal.value = CONFIG.GAME_AREA_WIDTH;
+            game_area.height.baseVal.value = CONFIG.GAME_AREA_HEIGHT;
+            game_area.style.display = 'block';
             return game_area;
         }
     })();
@@ -28,21 +28,22 @@
     var make_controller_area = (function () {
         var controller_area;
         return function () {
-            if (!CONFIG.DISPLAY_CONTROLLER) { return; }
+            if (!CONFIG.DISPLAY_CONTROLLER) { return controller_area; }
             var CONTROLLER_AREA_WIDTH = CONFIG.NON_GAME_2_SIZE;
             var CONTROLLER_AREA_HEIGHT = CONFIG.NON_GAME_2_SIZE ;
             var CONTROLLER_AREA_X = CONFIG.HOW_HANDED == 'right' ? CONFIG.APP_VIEWBOX_WIDTH - CONTROLLER_AREA_WIDTH : 0;
             var CONTROLLER_AREA_Y = CONFIG.APP_VIEWBOX_HEIGHT - CONTROLLER_AREA_HEIGHT;
-            
-            controller_area && controller_area.remove();
-            controller_area = undefined;
-            controller_area = utils.make_SVG('svg', {id:"svg_controller_area", x: CONTROLLER_AREA_X, y: CONTROLLER_AREA_Y, width: CONTROLLER_AREA_WIDTH, height: CONTROLLER_AREA_HEIGHT});
-            //controller_area.appendChild(utils.make_SVG('use', {x: 0, y: 0, width: '100%', height: '100%', "xlink:href":"#symbol_simple_rect"}));
-            controller_area.appendChild(utils.make_SVG('use', {x: 0, y: 0, width: '100%', height: '100%', "xlink:href":"#controller"}));
-            svg.appendChild(controller_area);
+
+            var controller_area = svg.querySelector('#svg_controller_area');
+            controller_area.x.baseVal.value = CONTROLLER_AREA_X;
+            controller_area.y.baseVal.value = CONTROLLER_AREA_Y;
+            controller_area.width.baseVal.value = CONTROLLER_AREA_WIDTH;
+            controller_area.height.baseVal.value = CONTROLLER_AREA_HEIGHT;
+            controller_area.style.display = 'block';
             return controller_area;
         }
     })();
+    
     
     var make_info_area = (function () {
         var info_area;
@@ -60,11 +61,12 @@
                 var INFO_AREA_Y = CONFIG.NON_GAME_1_SIZE;
             }
             
-            info_area && info_area.remove();
-            info_area = undefined;
-            info_area = utils.make_SVG('svg', {id:"svg_info_area", x: INFO_AREA_X, y: INFO_AREA_Y, width: INFO_AREA_WIDTH, height: INFO_AREA_HEIGHT});
-            info_area.appendChild(utils.make_SVG('use', {x: 0, y: 0, width: '100%', height: '100%', "xlink:href":"#symbol_simple_rect"}));
-            svg.appendChild(info_area);
+            var info_area = svg.querySelector('#svg_info_area');
+            info_area.x.baseVal.value = INFO_AREA_X;
+            info_area.y.baseVal.value = INFO_AREA_Y;
+            info_area.width.baseVal.value = INFO_AREA_WIDTH;
+            info_area.height.baseVal.value = INFO_AREA_HEIGHT;
+            info_area.style.display = 'block';
             return info_area;
         }
     })();
@@ -84,8 +86,8 @@
     
     function render_game_page() {
         var game_area = make_game_area();
-        var controller_area = make_controller_area();
-        var info_area = make_info_area();
+        make_controller_area();
+        make_info_area();
         var snake_head = make_snake_head(game_area);
         app.run_game({snake_head: snake_head});
     }

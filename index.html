@@ -8,44 +8,63 @@
         <link href="css/style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <div class="table" style="border: 0px solid yellow;">
-            <div class="cell" style="border: 0px solid blue;">
+        <div class="table">
+            <div class="cell">
                 <div id="container">
                     <svg
                         xmlns='http://www.w3.org/2000/svg' 
                         xmlns:xlink='http://www.w3.org/1999/xlink'
                         id="main"
                     >
+                        
                         <defs>
+                            
                             <symbol id="symbol_svg_chain">
                                 <rect width="100%" height="100%" style="fill: deepskyblue; " />
                                 <rect width="50%" height="100%" x="25%" style="" />
                                 <rect width="50%" height="25%" x="25%" style="fill: indianred; " />
                             </symbol>
+                            
                             <symbol id="symbol_simple_rect">
                                 <rect width="100%" height="100%" />
                             </symbol>
-                            <symbol id="controller_side">
-                                <rect x="50%" y="0" width="30" height="50%" style="stroke-width: 0px; fill:darkslateblue;" transform="translate(-15 0)" />
+                            
+                            <!-- used in controller only -->
+                            <symbol  id="controller_side"  > <!-- onclick="fire_native_event(evt)" ontouchstart="fire_native_event(evt)" -->
+                                <polygon  points="5,0 33.333,33.333 66.666,33.333 95,0 "  />
                             </symbol>
-                            <svg id="controller">
-                                <use xlink:href="#symbol_simple_rect" width="100%" height="100%" style="" />
-                                <circle cx="50%" cy="50%" r="40%" style="stroke:black; stroke-width: 1px; fill: none;"  />
-                                <!--<rect x="50%" y="0" width="30" height="50%" style="stroke-width: 0px; fill:darkslateblue;" transform="translate(-15 0)" />-->
-                                <use xlink:href="#controller_side" />
-                                <use xlink:href="#controller_side" transform="rotate(4)" />
-                            </svg>
+                            
                         </defs>
+                        <svg id="svg_game_area" style="display:none;">
+                            <use x="0" y="0" width="100%", height="100%" xlink:href="#symbol_simple_rect"  />
                         </svg>
+                        <svg id="svg_info_area" style="display:none;">
+                            <use x="0" y="0" width="100%", height="100%" xlink:href="#symbol_simple_rect"  />
+                        </svg>
+                        <svg id="svg_controller_area" style="display:none;">
+                            <svg id="controller" viewBox="0 0 100 100" preserveAspectRatio="none"  >
+                                <use xlink:href="#symbol_simple_rect" width="100" height="100" />
+                                <circle cx="50" cy="50" r="40"   />
+                                <g id="controls">
+                                    <use  id="controller_side_up"    xlink:href="#controller_side" transform="rotate(0, 50 50)" />
+                                    <use  id="controller_side_right" xlink:href="#controller_side" transform="rotate(90, 50 50)" />
+                                    <use  id="controller_side_down"  xlink:href="#controller_side" transform="rotate(180, 50 50)" />
+                                    <use  id="controller_side_left"  xlink:href="#controller_side" transform="rotate(270, 50 50)" />
+                                    <rect id="controller_side_center" x="35" y="35" width="30" height="30" />
+                                </g>
+                            </svg>
+                        </svg>
+
+                    </svg>
                 </div>
             </div>
         </div>
         
     </body>
     
-    <script src="js/utils.js"></script>-->
-    <script src="js/app.js"></script>
-    <script src="js/app_bootstrap.js"></script>
+    <script src="js/utils.js?2"></script>-->
+    <script src="js/app.js?2"></script>
+    <script src="js/app_bootstrap.js?2"></script>
     <script>
         'use strict';
         var svg = document.querySelector('svg');
@@ -56,7 +75,13 @@
         //scs.firstChild.setAttribute('transform', 'rotate(45 ' + (scs.firstChild.x.baseVal.value + scs.firstChild.width.baseVal.value/2) + ' ' +(scs.firstChild.y.baseVal.value + scs.firstChild.height.baseVal.value/2) + ' )');                             
         //scs.setAttribute('x', parseFloat(scs.getAttribute('x'))+20);
         
-  
+        
+        [].slice.call(document.querySelectorAll('#controller use'),0).forEach(function(el){
+            //console.log(el);
+            el.addEventListener('click', function(evt){
+                console.log(evt.currentTarget.id);
+            })
+        });
         
         
     </script>

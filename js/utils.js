@@ -17,6 +17,28 @@ NodeList.prototype.remove = NodeList.prototype.remove || function () {
     }
 }
 
+window.requestAnimationFrame = (function () {
+    return  window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            function (callback) {
+                return window.setTimeout(callback, 1000 / 60); 
+            };
+})();
+
+window.cancelAnimationFrame = (function () {
+    return  window.cancelAnimationFrame ||
+            window.webkitCancelAnimationFrame ||
+            window.mozCancelAnimationFrame ||
+            window.oCancelAnimationFrame ||
+            function (id) {
+                window.clearTimeout(id);
+            };
+})();
+
+
+
 /* ================================== END PATCHES =============================================*/
 
 
@@ -39,8 +61,8 @@ window.CONFIG = {
     get APP_VIEWBOX_WIDTH () { return this.DOC_WIDTH; }, // 600
     get APP_VIEWBOX_HEIGHT () { return this.DOC_HEIGHT; }, // 900
     
-    NON_GAME_1_SIZE: 30, // smaller
-    NON_GAME_2_SIZE: 100, // larger
+    get NON_GAME_1_SIZE () { return 30; }, // smaller  30
+    get NON_GAME_2_SIZE () { return 170; }, // larger  170
     
     get NON_GAME_ALL_SIZE () { return this.NON_GAME_1_SIZE + this.NON_GAME_2_SIZE},
     
@@ -104,26 +126,6 @@ window.utils = (function () {
     
     
     var animate = (function () {
-        
-        window.requestAnimationFrame = (function () {
-            return  window.requestAnimationFrame ||
-                    window.webkitRequestAnimationFrame ||
-                    window.mozRequestAnimationFrame ||
-                    window.oRequestAnimationFrame ||
-                    function (callback) {
-                        return window.setTimeout(callback, 1000 / 60); 
-                    };
-        })();
-        
-        window.cancelAnimationFrame = (function () {
-            return  window.cancelAnimationFrame ||
-                    window.webkitCancelAnimationFrame ||
-                    window.mozCancelAnimationFrame ||
-                    window.oCancelAnimationFrame ||
-                    function (id) {
-                        window.clearTimeout(id);
-                    };
-        })();
         
         /**
         @param {Callback} callback Callback to be called for every anymation frame
@@ -224,6 +226,12 @@ window.utils = (function () {
     })();
     
     var event = (function () {
+        window.fire_native_event = function (evt) {
+            //log.debug(evt);
+            //log.debug(evt.target.parentNode.parentNode.id || evt.target.parentNode.parentNode.correspondingElement.id);
+            fire ('NATIVE', evt);
+            //fire ('controller_event', {direction: 'right'});
+        }
         var listeners = {};
         function register (evt_name, callback) {
             listeners[evt_name] ? listeners[evt_name].push(callback) : listeners[evt_name] = [callback];
