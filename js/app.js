@@ -75,12 +75,10 @@ handles: controller events
         }
     });
     
-    var svg = document.querySelector('#main');
-    var game_area = svg.querySelector('#svg_game_area');
-    var info_text = svg.querySelector('#info_text');
-    var controller_elements = svg.querySelectorAll('#controller use');
     
-    var hammered_game_area = new Hammer(game_area, {});
+    var info_text = document.querySelector('#info_text') || {};
+    
+    var hammered_game_area = new Hammer(document.querySelector('#svg_game_area'), {});
     hammered_game_area.get('swipe').set({ direction: Hammer.DIRECTION_ALL, velocity: 0.2 });
     hammered_game_area.on('swipeleft swiperight swipeup swipedown', function(evt) {
         evt.preventDefault();
@@ -106,7 +104,7 @@ handles: controller events
     });
     
     
-    Array.prototype.slice.call(controller_elements, 0).forEach(function(el){
+    Array.prototype.slice.call(document.querySelectorAll('#controller use'), 0).forEach(function(el){
         var hammered_controller_element = new Hammer(el, {});
         hammered_controller_element.on('tap', function (evt) {
             evt.preventDefault();
