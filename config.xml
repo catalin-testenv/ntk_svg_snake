@@ -21,7 +21,6 @@
 	<icon src="icon.png" />
 	
 	<gap:platform name="android" />
-	<gap:platform name="winphone" />
 	
 	<preference name="phonegap-version" value="3.6.3" />
 	<preference name="orientation" value="landscape" />
