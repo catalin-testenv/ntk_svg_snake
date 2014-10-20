@@ -12,6 +12,7 @@
     
     
     function set_dimensions () {
+        utils.info(CONFIG.DOC_WIDTH + ':' + CONFIG.DOC_HEIGHT);
         container.style.width = CONFIG.DOC_WIDTH + 'px';
         container.style.height = CONFIG.DOC_HEIGHT + 'px' ;
         svg.setAttribute('viewBox', '0 0 '+CONFIG.APP_VIEWBOX_WIDTH+' '+CONFIG.APP_VIEWBOX_HEIGHT+'');

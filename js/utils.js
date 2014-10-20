@@ -47,16 +47,17 @@ window.CONFIG = {
         DEBUG: 1, INFO: 2, NOTICE: 4, WARNING: 8, ERROR: 16
     },
     LOG_LEVEL: 'DEBUG',
+    INFO_TEXT_ID: '#info_text',
     
     get HOW_HANDED () { return 'right'; },
     GAME_SPEED: 7,
     get SNAKE_CHAIN_SIZE () { return 15 ; },
     get APP_PAGE () { return 'game'; },
 
-    get DOC_WIDTH () { return document.documentElement.clientWidth; },
-    get DOC_HEIGHT () { return document.documentElement.clientHeight; },
-    get APP_ABS_ASPECT_RATIO () { return document.documentElement.clientHeight/document.documentElement.clientWidth >= 1 ? document.documentElement.clientHeight/document.documentElement.clientWidth : document.documentElement.clientWidth/document.documentElement.clientHeight; },
-    get ORIENTATION () { return document.documentElement.clientWidth/document.documentElement.clientHeight >= 1 ? 'landscape' : 'portrait' ; },
+    get DOC_WIDTH () { return Math.min(document.documentElement.clientWidth, 900); },
+    get DOC_HEIGHT () { return Math.min(document.documentElement.clientHeight, 600); },
+    get APP_ABS_ASPECT_RATIO () { return this.DOC_HEIGHT/this.DOC_WIDTH >= 1 ? this.DOC_HEIGHT/this.DOC_WIDTH : this.DOC_WIDTH/DOC_HEIGHT; },
+    get ORIENTATION () { return this.DOC_WIDTH/this.DOC_HEIGHT >= 1 ? 'landscape' : 'portrait' ; },
     
     get APP_VIEWBOX_WIDTH () { return this.DOC_WIDTH; }, // 600
     get APP_VIEWBOX_HEIGHT () { return this.DOC_HEIGHT; }, // 900
@@ -100,6 +101,16 @@ window.utils = (function () {
         }
     })();
     
+    
+    var info = (function () {
+        var info_text = document.querySelector(CONFIG.INFO_TEXT_ID);
+        return function (msg) {
+            if (!info_text) { return; }
+            info_text.textContent = msg;
+        }
+    })();
+    
+    
     var make_SVG = (function () {
         var SVG_NAMESPACE = "http://www.w3.org/2000/svg";
         var NAMESPACES = {'xlink':'http://www.w3.org/1999/xlink'};
@@ -121,8 +132,6 @@ window.utils = (function () {
                 return el;
             }
     })();
-    
-    
     
     
     var animate = (function () {
@@ -191,6 +200,7 @@ window.utils = (function () {
         };
     })();
     
+    
     /**
     usage: get_next_point_on_path.bind(path)(start, is_loop)(advance)
     ex:
@@ -224,6 +234,8 @@ window.utils = (function () {
             }
         }
     })();
+    
+    
     
     var event = (function () {
         window.fire_native_event = function (evt) {
@@ -259,13 +271,15 @@ window.utils = (function () {
         }
     })();
     
+    
     return  {
         make_SVG: make_SVG,
         animate: animate,
         animator: animator,
         get_next_point_on_path: get_next_point_on_path,
         event: event,
-        log: log
+        log: log,
+        info: info
     }
     
 })();

@@ -28,40 +28,38 @@ html, body, .table, .cell, #main {
     border: 1px solid green;
     box-sizing: border-box;
 }
+
+
+
 #svg_small_info_area use {
-    stroke: black;
-    stroke-width: 0px;
-    fill: deepskyblue;
-    fill-opacity: .3;
+    stroke: black; stroke-width: 0px;
+    fill: deepskyblue; fill-opacity: .3;
 }
 #svg_small_info_area text {
-    stroke: black;
-    stroke-width: 0px;
-    fill: black;
-    fill-opacity: 1;
+    stroke: black; stroke-width: 0px;
+    fill: black; fill-opacity: 1;
 }
+
+
 #svg_info_area{
-    stroke: black;
-    stroke-width: 0px;
-    fill: #ccf;
-    fill-opacity: .5;
+    stroke: black; stroke-width: 0px;
+    fill: #ccf; fill-opacity: .5;
 }
+
 
 #svg_game_area{
-    stroke: black;
-    stroke-width: 0px;
-    fill: #ccc;
-    fill-opacity: .5;
+    stroke: black; stroke-width: 0px;
+    fill: #ccc; fill-opacity: .5;
 }
 
+
 #svg_controller_area #controller > use{
-    stroke: black;
-    stroke-width: 0px;
-    fill: #fcc;
-    fill-opacity: .5;
+    stroke: black; stroke-width: 0px;
+    fill: #fcc; fill-opacity: .5;
 }
 #svg_controller_area #controller circle {
-    stroke:black; stroke-width: 1px; fill: none;
+    stroke:black; stroke-width: 1px;
+    fill: none;
 }
 #svg_controller_area #controller #controls {
     fill: darkslateblue; fill-opacity: .5;
@@ -70,13 +68,11 @@ html, body, .table, .cell, #main {
 
 
 #svg_snake_head {
-    stroke: orange;
-    stroke-width: 0px;
+    stroke: orange; stroke-width: 0px;
     fill: darkslateblue;
 }
 .svg_snake_chain {
-    stroke: orange;
-    stroke-width: 0px;
+    stroke: orange; stroke-width: 0px;
     fill: green;
 }
 
