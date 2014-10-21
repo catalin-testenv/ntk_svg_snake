@@ -114,7 +114,7 @@ var app = (function () {
             var animation = utils.animate(null, 0, CONFIG.GAME_SPEED);
             var last_event;
             var delay = 0;
-            var delay_rate = (1000/60)*CONFIG.GAME_SPEED
+            var DELAY_RATE = 0; //(1000/60)*CONFIG.GAME_SPEED
             return function (evt) {
                 var evt_direction = evt.direction;
                 if (last_event) {
@@ -135,8 +135,7 @@ var app = (function () {
                     setTimeout(function(){
                         animation.stop();
                         animation.callback = function(){
-                            console.log(evt_direction);
-                            delay = delay > 0 ? delay - delay_rate : 0;
+                            delay = delay > 0 ? delay - DELAY_RATE : 0;
                             snake_head.firstChild.setAttribute("transform", "rotate("+rot_ang+" "+rot_point_x+" "+rot_point_y+")");
                             utils.animator(snake_head,    {
                                                     x: function(evt){
@@ -148,12 +147,11 @@ var app = (function () {
                                                 }, [evt]);
                             
                         };
-                        console.log('=='+evt_direction);
                         animation.start();
                     }, delay);
                 })(rot_ang, rot_point_x, rot_point_y);
                         
-                delay += delay_rate;    
+                delay += DELAY_RATE;    
  
             }
         };
