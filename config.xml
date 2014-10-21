@@ -23,7 +23,7 @@
 	<gap:platform name="android" />
 	
 	<preference name="phonegap-version" value="3.6.3" />
-	<preference name="orientation" value="landscape" />
+	<preference name="orientation" value="portrait" />
 	<preference name="fullscreen" value="true" />
 	<preference name="android-minSdkVersion" value="14" />
 	<preference name="android-installLocation" value="auto" />

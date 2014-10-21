@@ -6,7 +6,100 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
         <title>snake</title>
-        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <!--<link href="css/style.css" rel="stylesheet" type="text/css" />-->
+        <style type="text/css">
+            html, body, .table, .cell {
+                margin: 0px;
+                padding: 0px;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+                overflow: hidden;
+                /*ms : disable double tap zoom and let the drag happen*/
+                touch-action: none;
+            }
+            .table {
+                display: table;
+                border: 0px solid yellow;
+            }
+            .cell {
+                display: table-cell;
+                vertical-align: middle;
+                border: 0px solid blue;
+                background-color: black;
+            }
+            #container {
+                position: relative;
+                border: 0px solid red;
+                margin-left:  auto;
+                margin-right:  auto;
+                box-sizing: border-box;
+                background-color: white;
+            }
+            #ads_area {
+                position: absolute;
+                bottom: 0px;
+                left:0px;
+                right: 0px;
+                box-sizing: border-box;
+                overflow: hidden;
+                border: 0px solid blue;
+                margin: 0px;
+                padding: 0px;
+                background-color: black;
+                color: white;
+            }
+            #main {
+                border: 0px solid green;
+                box-sizing: border-box;
+                margin: 0px;
+                padding: 0px;
+                box-sizing: border-box;
+                overflow: hidden;
+                /*ms : disable double tap zoom and let the drag happen*/
+                touch-action: none;
+            }
+            
+            
+            
+            
+            
+            #svg_info_area > rect:nth-child(1) {
+                stroke: black; stroke-width: 0px;
+                
+                fill: url('#light_blue');
+                fill-opacity: .5;
+            }
+            #svg_info_area > text:nth-child(1) {
+                stroke: black; stroke-width: 0px;
+                fill: black; 
+            }
+            
+            
+            
+            
+            #svg_game_area > rect:nth-child(1){
+                stroke: black; stroke-width: 0px;
+                fill: url('#light_blue'); fill-opacity: .5;
+            }
+            
+            
+            
+            
+            #symbol_svg_head {
+                stroke: white; stroke-width: 0px;
+            }
+            #symbol_svg_head > rect:nth-child(1) {
+                fill: darkslateblue;
+            }
+            #symbol_svg_head > rect:nth-child(2) {
+                fill: deepskyblue;
+            }
+            #symbol_svg_head > rect:nth-child(3) {
+                fill: indianred;
+            }
+            
+        </style>
     </head>
     <body>
         <div class="table">
@@ -19,51 +112,36 @@
                     >
                         <defs>
                             
-                            <symbol id="symbol_svg_chain">
-                                <rect width="100%" height="100%" style="fill: deepskyblue; " />
-                                <rect width="50%" height="100%" x="25%" style="" />
-                                <rect width="50%" height="25%" x="25%" style="fill: indianred; " />
+                            <linearGradient id="light_blue" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:royalblue;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:lightskyblue;stop-opacity:1" />
+                            </linearGradient>
+                            
+                            <symbol id="symbol_svg_head">
+                                <rect width="100%" height="100%" />
+                                <rect width="50%" height="100%" x="25%" />
+                                <rect width="50%" height="25%" x="25%" />
                             </symbol>
                             
                             <symbol id="symbol_simple_rect">
-                                <rect width="100%" height="100%" />
+                                <rect width="100%" height="100%"  />
                             </symbol>
-                            
-                            <!-- used in controller only -->
-                            <symbol  id="controller_side"  > <!-- onclick="fire_native_event(evt)" ontouchstart="fire_native_event(evt)" -->
-                                <polygon  points="5,0 33.333,33.333 66.666,33.333 95,0 "  />
-                            </symbol>
-                            
+
                         </defs>
                         
-                        <svg id="svg_small_info_area" style="display:none;">
-                            <use x="0" y="0" width="100%" height="100%" xlink:href="#symbol_simple_rect"  />
-                            <text id="info_text" x="0" y="20" width="100%">info</text>
+                        <svg id="svg_info_area" style="display:none;">
+                            <rect x="0" y="0" width="100%" height="100%"  />
+                            <text id="info_text" x="0" y="20" width="100%"  >info</text>
                         </svg>
                         
                         <svg id="svg_game_area" style="display:none;">
-                            <use x="0" y="0" width="100%" height="100%" xlink:href="#symbol_simple_rect"  />
+                            <rect x="0" y="0" width="100%" height="100%"  />
                         </svg>
-                        
-                        <svg id="svg_info_area" style="display:none;">
-                            <use x="0" y="0" width="100%" height="100%" xlink:href="#symbol_simple_rect"  />
-                        </svg>
-                        
-                        <svg id="svg_controller_area" style="display:none;">
-                            <svg id="controller" viewBox="0 0 100 100" preserveAspectRatio="none"  >
-                                <use xlink:href="#symbol_simple_rect" width="100" height="100" />
-                                <circle cx="50" cy="50" r="40"   />
-                                <g id="controls">
-                                    <use  id="controller_side_up"    xlink:href="#controller_side" transform="rotate(0, 50 50)" />
-                                    <use  id="controller_side_right" xlink:href="#controller_side" transform="rotate(90, 50 50)" />
-                                    <use  id="controller_side_down"  xlink:href="#controller_side" transform="rotate(180, 50 50)" />
-                                    <use  id="controller_side_left"  xlink:href="#controller_side" transform="rotate(270, 50 50)" />
-                                    <rect id="controller_side_center" x="35" y="35" width="30" height="30" />
-                                </g>
-                            </svg>
-                        </svg>
-                        
+
                     </svg>
+                    
+                    <div id="ads_area">ads area</div>
+                    
                 </div>
             </div>
         </div>
@@ -78,11 +156,11 @@
         'use strict';
         var svg = document.querySelector('#main');
         
-        //var scs = utils.make_SVG('svg', {x: 150, y: 150, width: 150, height: 150});
-        //scs.appendChild(utils.make_SVG('use', {class:"svg_snake_chain", x: 0, y: 0, width: '100%', height: '100%', "xlink:href":"#symbol_svg_chain"}));
-        //svg.appendChild(scs);
+        var scs = utils.make_SVG('svg', {x: 150, y: 150, width: 120, height: 120});
+        scs.appendChild(utils.make_SVG('use', {x: 0, y: 0, width: '100%', height: '100%', "xlink:href":"#symbol_svg_head"}));
+        svg.appendChild(scs);
         //scs.firstChild.setAttribute('transform', 'rotate(45 ' + (scs.firstChild.x.baseVal.value + scs.firstChild.width.baseVal.value/2) + ' ' +(scs.firstChild.y.baseVal.value + scs.firstChild.height.baseVal.value/2) + ' )');                             
-        //scs.setAttribute('x', parseFloat(scs.getAttribute('x'))+20);
+        scs.setAttribute('x', parseFloat(scs.getAttribute('x'))+20);
 
         
         
@@ -91,4 +169,7 @@
         
         
     </script>
+    <style>
+        
+    </style>
 </html>

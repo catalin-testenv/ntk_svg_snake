@@ -1,7 +1,8 @@
 'use strict';
 (function () {
     
-    var svg = document.querySelector('svg');
+    var svg = document.querySelector('#main');
+    var ads_area = document.querySelector('#ads_area');
     var container = document.querySelector('#container');
     svg.setAttribute('preserveAspectRatio', 'none');
     
@@ -12,80 +13,23 @@
     
     
     function set_dimensions () {
-        utils.info(CONFIG.DOC_WIDTH + ':' + CONFIG.DOC_HEIGHT);
-        container.style.width = CONFIG.DOC_WIDTH + 'px';
-        container.style.height = CONFIG.DOC_HEIGHT + 'px' ;
+        //utils.info('d_width:' + CONFIG.DOC_WIDTH + ', d_height:' + CONFIG.DOC_HEIGHT + ', g_width:' + CONFIG.GAME_AREA_WIDTH + ', g_height:' + CONFIG.GAME_AREA_HEIGHT + ', w_reminder: ' + CONFIG.GAME_WIDTH_REMINDER + ', h_reminder: ' + CONFIG.GAME_HEIGHT_REMINDER);
+        container.style.width = CONFIG.APP_VIEWBOX_WIDTH+'px';
+        container.style.height = CONFIG.DOC_HEIGHT+'px' ;
+        svg.style.width = CONFIG.APP_VIEWBOX_WIDTH+'px';
+        svg.style.height = CONFIG.APP_VIEWBOX_HEIGHT+'px';
         svg.setAttribute('viewBox', '0 0 '+CONFIG.APP_VIEWBOX_WIDTH+' '+CONFIG.APP_VIEWBOX_HEIGHT+'');
+        ads_area.style.height = CONFIG.ADS_AREA_HEIGHT+'px';
     }
-    
-    var make_game_area = (function () {
-        var game_area;
-        return function () {
-            game_area = svg.querySelector('#svg_game_area');
-            game_area.x.baseVal.value = CONFIG.GAME_AREA_X;
-            game_area.y.baseVal.value = CONFIG.GAME_AREA_Y;
-            game_area.width.baseVal.value = CONFIG.GAME_AREA_WIDTH;
-            game_area.height.baseVal.value = CONFIG.GAME_AREA_HEIGHT;
-            game_area.style.display = 'block';
-            return game_area;
-        }
-    })();
-    
-    var make_controller_area = (function () {
-        var controller_area;
-        return function () {
-            if (!CONFIG.DISPLAY_CONTROLLER) { return controller_area; }
-            var CONTROLLER_AREA_WIDTH = CONFIG.NON_GAME_2_SIZE;
-            var CONTROLLER_AREA_HEIGHT = CONFIG.NON_GAME_2_SIZE ;
-            var CONTROLLER_AREA_X = CONFIG.HOW_HANDED == 'right' ? CONFIG.APP_VIEWBOX_WIDTH - CONTROLLER_AREA_WIDTH : 0;
-            var CONTROLLER_AREA_Y = CONFIG.APP_VIEWBOX_HEIGHT - CONTROLLER_AREA_HEIGHT;
-
-            var controller_area = svg.querySelector('#svg_controller_area');
-            controller_area.x.baseVal.value = CONTROLLER_AREA_X;
-            controller_area.y.baseVal.value = CONTROLLER_AREA_Y;
-            controller_area.width.baseVal.value = CONTROLLER_AREA_WIDTH;
-            controller_area.height.baseVal.value = CONTROLLER_AREA_HEIGHT;
-            controller_area.style.display = 'block';
-            return controller_area;
-        }
-    })();
-    
-    var make_small_info_area = (function () {
-        var small_info_area;
-        return function () {
-            
-            var SMALL_INFO_AREA_HEIGHT = CONFIG.NON_GAME_1_SIZE;
-            var SMALL_INFO_AREA_WIDTH = CONFIG.APP_VIEWBOX_WIDTH ;
-            var SMALL_INFO_AREA_X = 0;
-            var SMALL_INFO_AREA_Y = 0;
-            
-            
-            var small_info_area = svg.querySelector('#svg_small_info_area');
-            small_info_area.x.baseVal.value = SMALL_INFO_AREA_X;
-            small_info_area.y.baseVal.value = SMALL_INFO_AREA_Y;
-            small_info_area.width.baseVal.value = SMALL_INFO_AREA_WIDTH;
-            small_info_area.height.baseVal.value = SMALL_INFO_AREA_HEIGHT;
-            small_info_area.style.display = 'block';
-            return small_info_area;
-        }
-    })();
     
     var make_info_area = (function () {
         var info_area;
         return function () {
-            if (CONFIG.ORIENTATION == 'portrait') {
-                var INFO_AREA_HEIGHT = CONFIG.NON_GAME_2_SIZE;
-                var INFO_AREA_WIDTH = CONFIG.APP_VIEWBOX_WIDTH - (CONFIG.DISPLAY_CONTROLLER ? CONFIG.NON_GAME_2_SIZE : 0);
-                var INFO_AREA_X = CONFIG.HOW_HANDED == 'right' ? 0 : (CONFIG.DISPLAY_CONTROLLER ? CONFIG.NON_GAME_2_SIZE : 0);
-                var INFO_AREA_Y = CONFIG.APP_VIEWBOX_HEIGHT - INFO_AREA_HEIGHT;
-            }
-            else {
-                var INFO_AREA_HEIGHT = CONFIG.APP_VIEWBOX_HEIGHT -  CONFIG.NON_GAME_1_SIZE - (CONFIG.DISPLAY_CONTROLLER ? CONFIG.NON_GAME_2_SIZE  : 0);
-                var INFO_AREA_WIDTH = CONFIG.NON_GAME_2_SIZE;
-                var INFO_AREA_X = CONFIG.HOW_HANDED == 'right' ? CONFIG.APP_VIEWBOX_WIDTH - INFO_AREA_WIDTH : 0;
-                var INFO_AREA_Y = CONFIG.NON_GAME_1_SIZE;
-            }
-            
+            var INFO_AREA_X = 0;
+            var INFO_AREA_Y = 0;
+            var INFO_AREA_WIDTH = CONFIG.APP_VIEWBOX_WIDTH ;
+            var INFO_AREA_HEIGHT = CONFIG.INFO_AREA_HEIGHT;
+
             var info_area = svg.querySelector('#svg_info_area');
             info_area.x.baseVal.value = INFO_AREA_X;
             info_area.y.baseVal.value = INFO_AREA_Y;
@@ -96,24 +40,50 @@
         }
     })();
     
+    var make_game_area = (function () {
+        var game_area;
+        return function () {
+            var GAME_AREA_X = CONFIG.GAME_AREA_X;
+            var GAME_AREA_Y = CONFIG.GAME_AREA_Y;
+            var GAME_AREA_WIDTH = CONFIG.GAME_AREA_WIDTH ;
+            var GAME_AREA_HEIGHT = CONFIG.GAME_AREA_HEIGHT;
+
+            game_area = svg.querySelector('#svg_game_area');
+            game_area.x.baseVal.value = GAME_AREA_X;
+            game_area.y.baseVal.value = GAME_AREA_Y;
+            game_area.width.baseVal.value = GAME_AREA_WIDTH;
+            game_area.height.baseVal.value = GAME_AREA_HEIGHT;
+            game_area.style.display = 'block';
+            return game_area;
+        }
+    })();
+
     var make_snake_head = (function(){
-        var SIZE = CONFIG.SNAKE_CHAIN_SIZE;
+        var SIZE = CONFIG.GRID_UNIT;
         var snake_head;
         return function (game_area) {
             snake_head  && snake_head.remove();
             snake_head = undefined;
             snake_head = utils.make_SVG('svg', {id:"svg_snake_head", x: 0, y: 0, width: SIZE, height: SIZE});
-            snake_head.appendChild(utils.make_SVG('use', {x: 0, y: 0, width: '100%', height: '100%', "xlink:href":"#symbol_svg_chain"}))
+            var snake_head_child = utils.make_SVG('use', {x: 0, y: 0, width: '100%', height: '100%', "xlink:href":"#symbol_svg_head"});
+            
+            // DEBUG
+            var snake_head_child_hammered = new Hammer(snake_head_child, {});
+            snake_head_child_hammered.on('tap', function(evt) {
+                utils.info('tapped');
+                utils.log.debug('tapped');
+            });
+            
+            
+            snake_head.appendChild(snake_head_child)
             game_area.appendChild(snake_head);
             return snake_head;
         }
     })();
     
     function render_game_page() {
-        var game_area = make_game_area();
-        make_controller_area();
-        make_small_info_area();
         make_info_area();
+        var game_area = make_game_area();
         var snake_head = make_snake_head(game_area);
         app.run_game({snake_head: snake_head});
     }

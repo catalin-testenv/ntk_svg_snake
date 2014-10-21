@@ -1,4 +1,4 @@
-html, body, .table, .cell, #main {
+html, body, .table, .cell {
     margin: 0px;
     padding: 0px;
     width: 100%;
@@ -16,65 +16,79 @@ html, body, .table, .cell, #main {
     display: table-cell;
     vertical-align: middle;
     border: 0px solid blue;
+    background-color: black;
 }
 #container {
-    border: 1px solid red;
+    position: relative;
+    border: 0px solid red;
     margin-left:  auto;
     margin-right:  auto;
     box-sizing: border-box;
-    background-color: rgba(200,200,200,.5);
+    background-color: white;
+}
+#ads_area {
+    position: absolute;
+    bottom: 0px;
+    left:0px;
+    right: 0px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 0px solid blue;
+    margin: 0px;
+    padding: 0px;
+    background-color: black;
+    color: white;
 }
 #main {
-    border: 1px solid green;
+    border: 0px solid green;
     box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    overflow: hidden;
+    /*ms : disable double tap zoom and let the drag happen*/
+    touch-action: none;
 }
 
 
 
-#svg_small_info_area use {
+
+#svg_info_area > rect:nth-child(1) {
     stroke: black; stroke-width: 0px;
-    fill: deepskyblue; fill-opacity: .3;
+    
+    fill: url('#light_blue');
+    fill: url('./gradients.svg#light_blue');
+    fill-opacity: .5;
 }
-#svg_small_info_area text {
+#svg_info_area > text:nth-child(1) {
     stroke: black; stroke-width: 0px;
-    fill: black; fill-opacity: 1;
+    fill: black; 
 }
 
 
-#svg_info_area{
-    stroke: black; stroke-width: 0px;
-    fill: #ccf; fill-opacity: .5;
-}
 
 
-#svg_game_area{
+#svg_game_area > use:nth-child(1){
     stroke: black; stroke-width: 0px;
     fill: #ccc; fill-opacity: .5;
 }
 
 
-#svg_controller_area #controller > use{
-    stroke: black; stroke-width: 0px;
-    fill: #fcc; fill-opacity: .5;
-}
-#svg_controller_area #controller circle {
-    stroke:black; stroke-width: 1px;
-    fill: none;
-}
-#svg_controller_area #controller #controls {
-    fill: darkslateblue; fill-opacity: .5;
-}
 
 
-
-#svg_snake_head {
-    stroke: orange; stroke-width: 0px;
+#symbol_svg_head {
+    stroke: white; stroke-width: 0px;
+}
+#symbol_svg_head > rect:nth-child(1) {
     fill: darkslateblue;
 }
-.svg_snake_chain {
-    stroke: orange; stroke-width: 0px;
-    fill: green;
+#symbol_svg_head > rect:nth-child(2) {
+    fill: deepskyblue;
 }
+#symbol_svg_head > rect:nth-child(3) {
+    fill: indianred;
+}
+
 
 
 

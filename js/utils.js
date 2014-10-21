@@ -49,39 +49,43 @@ window.CONFIG = {
     LOG_LEVEL: 'DEBUG',
     INFO_TEXT_ID: '#info_text',
     
-    get HOW_HANDED () { return 'right'; },
-    GAME_SPEED: 7,
-    get SNAKE_CHAIN_SIZE () { return 15 ; },
+    
+    GAME_SPEED: 7, // 7
+    get GRID_UNIT () { return 12 ; },
     get APP_PAGE () { return 'game'; },
 
-    get DOC_WIDTH () { return Math.min(document.documentElement.clientWidth, 900); },
-    get DOC_HEIGHT () { return Math.min(document.documentElement.clientHeight, 600); },
+    
+    get DOC_WIDTH () { return Math.min(document.documentElement.clientWidth); },
+    get DOC_HEIGHT () { return Math.min(document.documentElement.clientHeight); },
     get APP_ABS_ASPECT_RATIO () { return this.DOC_HEIGHT/this.DOC_WIDTH >= 1 ? this.DOC_HEIGHT/this.DOC_WIDTH : this.DOC_WIDTH/DOC_HEIGHT; },
     get ORIENTATION () { return this.DOC_WIDTH/this.DOC_HEIGHT >= 1 ? 'landscape' : 'portrait' ; },
     
-    get APP_VIEWBOX_WIDTH () { return this.DOC_WIDTH; }, // 600
-    get APP_VIEWBOX_HEIGHT () { return this.DOC_HEIGHT; }, // 900
     
-    get NON_GAME_1_SIZE () { return 30; }, // smaller  30
-    get NON_GAME_2_SIZE () { return 170; }, // larger  170
+    get INFO_AREA_HEIGHT () { return 30; }, 
+    get ADS_AREA_INITIAL_HEIGHT () { return 30; }, 
     
-    get NON_GAME_ALL_SIZE () { return this.NON_GAME_1_SIZE + this.NON_GAME_2_SIZE},
+    get GAME_WIDTH_REMINDER () { return this.DOC_WIDTH % this.GRID_UNIT},
+    get GAME_HEIGHT_REMINDER () { return (this.DOC_HEIGHT - this.INFO_AREA_HEIGHT - this.ADS_AREA_INITIAL_HEIGHT) % this.GRID_UNIT},
+    
+    get ADS_AREA_HEIGHT () { return this.ADS_AREA_INITIAL_HEIGHT + this.GAME_HEIGHT_REMINDER; }, 
+
+    get APP_VIEWBOX_WIDTH () { return this.DOC_WIDTH  - this.GAME_WIDTH_REMINDER; }, // 600
+    get APP_VIEWBOX_HEIGHT () { return this.DOC_HEIGHT - this.ADS_AREA_HEIGHT; }, // 900
     
     get GAME_AREA_WIDTH  () {
-        return this.ORIENTATION == 'landscape' ? this.APP_VIEWBOX_WIDTH - this.NON_GAME_2_SIZE : this.APP_VIEWBOX_WIDTH ; 
+        return this.APP_VIEWBOX_WIDTH; 
     }, 
     get GAME_AREA_HEIGHT () {
-        return this.ORIENTATION == 'landscape' ? this.APP_VIEWBOX_HEIGHT - this.NON_GAME_1_SIZE: this.APP_VIEWBOX_HEIGHT - this.NON_GAME_ALL_SIZE;
+        return this.APP_VIEWBOX_HEIGHT - this.INFO_AREA_HEIGHT;
     }, 
     get GAME_AREA_X      () {
-        if ( this.HOW_HANDED == 'right') { return 0; }
-        else { return this.ORIENTATION == 'landscape' ? this.APP_VIEWBOX_WIDTH - this.GAME_AREA_WIDTH : 0; }
+        return 0;
     }, 
     get GAME_AREA_Y      () { 
-        return this.NON_GAME_1_SIZE;
+        return this.INFO_AREA_HEIGHT;
     }, 
     
-    get DISPLAY_CONTROLLER () {return true;},
+    
     
     NOTHING:0
 };
@@ -142,7 +146,7 @@ window.utils = (function () {
         @param {Array} args Arguments to be passed to Callback when called
         */
         function Animation (callback, seconds_to_run, run_every, args) {
-            this.callback = callback;
+            this.callback = callback || function () {};
             this.seconds_to_run = seconds_to_run ? seconds_to_run * 1000 : 0;
             this.run_every = run_every || 1;
             this.args = args || [];
@@ -155,19 +159,16 @@ window.utils = (function () {
         
         Animation.prototype.start = function start () {
             var $this = this;
+            $this.stop();
             $this.startime = window.performance.now ? window.performance.now() :  Date.now();
-            
             function frame (timestamp) {
                 $this.elapsed_time = timestamp - $this.startime;
-                //console.log($this.startime + ' : ' + timestamp + ' = ' + $this.elapsed_time);
-                
                 if ($this.seconds_to_run === 0 || $this.seconds_to_run > $this.elapsed_time) {
                     $this.frames_count += 1;
                     !($this.run_every - $this.frames_count) && $this.callback.apply(null, $this.args);
                     $this.animationId = requestAnimationFrame(frame);
                     $this.frames_count == $this.run_every && ($this.frames_count = 0);
                 }
-                
             };
             $this.animationId = requestAnimationFrame(frame);
         };
@@ -239,12 +240,12 @@ window.utils = (function () {
     
     var event = (function () {
         window.fire_native_event = function (evt) {
-            //log.debug(evt);
             //log.debug(evt.target.parentNode.parentNode.id || evt.target.parentNode.parentNode.correspondingElement.id);
             fire ('NATIVE', evt);
-            //fire ('controller_event', {direction: 'right'});
         }
+        
         var listeners = {};
+        
         function register (evt_name, callback) {
             listeners[evt_name] ? listeners[evt_name].push(callback) : listeners[evt_name] = [callback];
         }
@@ -258,12 +259,14 @@ window.utils = (function () {
             indexOf != -1 && listeners[evt_name].splice(indexOf, 1);
             local_log && log.debug(log_msg + listeners[evt_name].length);
         }
+        
         function fire (evt_name, evt) {
             if (!listeners[evt_name]) { return; }
             listeners[evt_name].forEach(function(listener){
                 listener(evt);
             });
         }
+        
         return {
             register: register,
             unregister: unregister,
